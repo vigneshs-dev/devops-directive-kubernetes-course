@@ -1,0 +1,17 @@
+api:
+  dashboard: true  # Enable the Traefik dashboard
+  insecure: true   # Enable insecure access to the dashboard (use only in development environments)
+
+service:
+  enabled: true  # Enable Traefik's HTTP(S) service for external access
+
+ingressRoute:
+  dashboard:
+    enabled: true   # Enable the dashboard ingress route for Traefik
+
+# Optionally, you can configure the entry points (web and websecure)
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"

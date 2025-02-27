@@ -12,6 +12,8 @@ tasks:
     cmds:
       - helm repo add traefik https://traefik.github.io/charts
       - helm upgrade --install -n traefik --create-namespace traefik traefik/traefik --version 20.8.0
+      # - helm upgrade --install -n traefik --create-namespace traefik traefik/traefik --version 20.8.0 -f values.yaml
+
 
   apply-traefik-middleware:
     desc: "Deploy Traefik middleware"

@@ -16,7 +16,7 @@ spec:
         app: client-react-nginx
     spec:
       containers:
-        - image: sidpalas/devops-directive-docker-course-client-react-nginx:foobarbaz
+        - image: vigneshvicky97/devops-directive-docker-course-client-react-nginx:foobarbaz
           name: client-react-nginx
           ports:
             - containerPort: 8080
