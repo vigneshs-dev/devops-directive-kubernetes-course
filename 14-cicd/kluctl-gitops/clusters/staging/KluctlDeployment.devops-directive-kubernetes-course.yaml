@@ -7,7 +7,8 @@ spec:
   interval: 5m
   source:
     git:
-      url: https://github.com/sidpalas/devops-directive-kubernetes-course.git
+      # url: https://github.com/sidpalas/devops-directive-kubernetes-course.git
+      url: https://github.com/vigneshs-dev/devops-directive-kubernetes-course.git
       path: 12-deploying-to-multiple-environments/kluctl
   target: staging
   context: default
