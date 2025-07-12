@@ -1,6 +1,6 @@
 load('ext://ko', 'ko_build')
 ko_build(
-  'sidpalas/devops-directive-docker-course-api-golang', 
+  'vigneshvicky97/devops-directive-docker-course-api-golang', 
   './',
   deps=['.']
 )

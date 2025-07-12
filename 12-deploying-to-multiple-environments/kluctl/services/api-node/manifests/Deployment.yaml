@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api-node
-          image: sidpalas/devops-directive-docker-course-api-node:{{ apiNode.version }}
+          image: vigneshvicky97/devops-directive-docker-course-api-node:{{ apiNode.version }}
           env:
             - name: PORT
               value: "3000"

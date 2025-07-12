@@ -2,8 +2,8 @@ version: "3"
 
 vars:
   DATABASE_URL: "postgres://postgres:foobarbaz@localhost:5432/postgres"
-  IMAGE_REPO: sidpalas/devops-directive-docker-course-api-golang
-  IMAGE_TAG: foobarbaz
+  IMAGE_REPO: vigneshvicky97/devops-directive-docker-course-api-golang
+  IMAGE_TAG: 1.0.0
 
 tasks:
   install:
@@ -28,7 +28,17 @@ tasks:
           --tags={{.IMAGE_TAG}} \
           --platform=all
 
+  # build-container-image-multi-arch:
+  #   desc: Build multi-arch container image
+  #   cmds:
+  #     - task: build-container-image
+
   build-container-image-multi-arch:
     desc: Build multi-arch container image
     cmds:
-      - task: build-container-image
+      - |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} \
+        --push \
+        .

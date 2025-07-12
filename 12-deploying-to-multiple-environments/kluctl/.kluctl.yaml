@@ -4,7 +4,7 @@ targets:
       environment: staging
       environmentType: non-prod
     # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
-    context: devops-directive-kubernetes-course
+    context: kind-kind
 
   - name: production
     args:
