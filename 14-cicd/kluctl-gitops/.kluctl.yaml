@@ -4,7 +4,7 @@ targets:
     args:
       cluster_name: staging
     # Adding a context to .kluctl.yaml helps prevent accidentally deploying to the wrong cluster!
-    context: arn:aws:eks:us-east-1:617148623662:cluster/education-eks-hogo8myj
+    context: kind-kind
 
   - name: production
     args:
