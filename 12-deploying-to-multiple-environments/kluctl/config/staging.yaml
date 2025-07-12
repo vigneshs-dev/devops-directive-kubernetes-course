@@ -1,2 +1,3 @@
 sharedVars:
-  hostName: "kubernetes-course-staging.devopsdirective.com"
+  # hostName: "kubernetes-course-staging.devopsdirective.com"
+  hostName: "sriram.sbs"

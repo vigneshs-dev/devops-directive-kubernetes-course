@@ -13,7 +13,7 @@
 
 The demo application builds upon the one used in the [DevOps Directive Docker Course](https://github.com/sidpalas/devops-directive-docker-course/tree/main/05-example-web-application).
 
-It adds a simple load generator written in python and adds a simple database schema to track requests to each API.
+It adds a simple load generator written in python and adds a simple database schema to track requests to each API
 
 ## Running the Application
 
