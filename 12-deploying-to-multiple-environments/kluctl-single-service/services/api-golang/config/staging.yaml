@@ -1,3 +1,3 @@
 apiGolang:
-  version: 1.0.0-20-gb43e238 # STAGING_IMAGE_TAG
+  version: 1.0.0-22-g3d4cc7c # STAGING_IMAGE_TAG
   replicas: 1
