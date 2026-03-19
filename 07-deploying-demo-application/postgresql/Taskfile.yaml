@@ -10,7 +10,7 @@ tasks:
           -n postgres \
           postgres bitnami/postgresql \
           --set auth.postgresPassword=foobarbaz \
-          --version 15.3.2 \
+          --version 18.5.8 \
           --values values.yaml \
           --create-namespace
 
