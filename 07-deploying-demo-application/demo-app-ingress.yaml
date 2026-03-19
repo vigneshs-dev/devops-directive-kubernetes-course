@@ -1,0 +1,116 @@
+# =============================================================================
+# demo-app-ingress.yaml
+# Cilium-native routing for devops-directive-kubernetes-course demo app.
+#
+# WHY GATEWAY API:
+#   Cilium's standard Ingress controller does not support path rewriting
+#   (nginx.ingress.kubernetes.io/rewrite-target is nginx-only and ignored).
+#   The correct Cilium-native way to do prefix stripping is the Gateway API
+#   HTTPRoute with a URLRewrite filter — Cilium has full Gateway API support
+#   built in via Envoy.
+#
+# WHAT THIS DOES:
+#   /api/golang/* → api-golang:8000  (prefix /api/golang stripped)
+#   /api/node/*   → api-node:3000    (prefix /api/node stripped)
+#   /*            → client-react-nginx:8080  (no rewrite)
+#
+# PREREQUISITES:
+#   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.0/standard-install.yaml
+#   (Run this once before applying this file)
+# =============================================================================
+
+---
+# Gateway — the actual L7 load balancer entry point.
+# GatewayClass "cilium" is created and managed by Helm (gatewayAPI.enabled=true)
+# so we do not define it here.
+# Cilium will create an Envoy listener bound to port 80.
+# k3d maps host:80 → NodePort 32080 → this Gateway.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: demo-app-gateway
+  namespace: demo-app
+spec:
+  gatewayClassName: cilium
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: Same
+
+---
+# HTTPRoute for api-golang — strips /api/golang prefix before forwarding
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: api-golang
+  namespace: demo-app
+spec:
+  parentRefs:
+    - name: demo-app-gateway
+  hostnames:
+    - k8s.vigneshsdev.uk
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/golang
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: api-golang
+          port: 8000
+
+---
+# HTTPRoute for api-node — strips /api/node prefix before forwarding
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: api-node
+  namespace: demo-app
+spec:
+  parentRefs:
+    - name: demo-app-gateway
+  hostnames:
+    - k8s.vigneshsdev.uk
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/node
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: api-node
+          port: 3000
+
+---
+# HTTPRoute for React client — catch-all, no rewrite needed
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: client-react-nginx
+  namespace: demo-app
+spec:
+  parentRefs:
+    - name: demo-app-gateway
+  hostnames:
+    - k8s.vigneshsdev.uk
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: client-react-nginx
+          port: 8080

@@ -1,16 +1,18 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: client-react-nginx
-  namespace: demo-app
-spec:
-  entryPoints:
-    - web
-  routes:
-    - kind: Rule
-      match: Host(`k8s.vigneshsdev.uk`)
-      services:
-        - kind: Service
-          name: client-react-nginx
-          port: 8080
-          scheme: http
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: client-react-nginx
+#   namespace: demo-app
+# spec:
+#   ingressClassName: cilium
+#   rules:
+#     - host: k8s.vigneshsdev.uk
+#       http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: client-react-nginx
+#                 port:
+#                   number: 8080

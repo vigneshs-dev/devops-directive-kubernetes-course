@@ -1,18 +1,20 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: api-golang
-  namespace: demo-app
-spec:
-  entryPoints:
-    - web
-  routes:
-    - kind: Rule
-      match: Host(`k8s.vigneshsdev.uk`) && PathPrefix(`/api/golang`)
-      middlewares:
-        - name: strip-api-prefixes
-      services:
-        - kind: Service
-          name: api-golang
-          port: 8000
-          scheme: http
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: api-golang
+#   namespace: demo-app
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /$2
+# spec:
+#   ingressClassName: cilium
+#   rules:
+#     - host: k8s.vigneshsdev.uk
+#       http:
+#         paths:
+#           - path: /api/golang(/|$)(.*)
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: api-golang
+#                 port:
+#                   number: 8000
